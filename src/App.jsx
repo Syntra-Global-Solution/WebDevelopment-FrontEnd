@@ -1,7 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from './components/layout/AppShell'
+
 import { TrajetosPage } from './pages/TrajetosPage'
 import { LinhasPage } from './pages/LinhasPage'
+import { RelatosPage } from './pages/RelatosPage'
 
 function App() {
   return (
@@ -17,6 +19,11 @@ function App() {
         <Route
           path="/linhas"
           element={<LinhasPage />}
+        />
+
+        <Route
+          path="/relatos"
+          element={<RelatosPage />}
         />
 
         <Route
