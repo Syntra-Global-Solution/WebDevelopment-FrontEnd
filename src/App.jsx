@@ -1,10 +1,9 @@
-import React from 'react'
-
 const App = () => {
   return (
-    <div>
-      
-    </div>
+    <>
+      <h1>Syntra</h1>
+      <p>Mobilidade Urbana Inteligente</p>
+    </>
   )
 }
 
