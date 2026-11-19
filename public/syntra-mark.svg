@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">Símbolo da Syntra</title>
+  <rect width="48" height="48" rx="10" fill="#F4F1DE"/>
+  <path d="M13 31.5c6-1 4-15 12-15 5 0 5 8 10 8" fill="none" stroke="#0D1B2A" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="13" cy="31.5" r="4" fill="#778D7A"/>
+  <circle cx="25" cy="16.5" r="4" fill="#415A77"/>
+  <circle cx="35" cy="24.5" r="4" fill="#4D0E13"/>
+</svg>
