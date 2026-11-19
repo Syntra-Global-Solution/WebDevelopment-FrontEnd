@@ -4,6 +4,7 @@ import { AppShell } from './components/layout/AppShell'
 import { TrajetosPage } from './pages/TrajetosPage'
 import { LinhasPage } from './pages/LinhasPage'
 import { RelatosPage } from './pages/RelatosPage'
+import { MapaPage } from './pages/MapaPage'
 
 function App() {
   return (
@@ -24,6 +25,11 @@ function App() {
         <Route
           path="/relatos"
           element={<RelatosPage />}
+        />
+
+        <Route
+          path="/mapa"
+          element={<MapaPage />}
         />
 
         <Route
