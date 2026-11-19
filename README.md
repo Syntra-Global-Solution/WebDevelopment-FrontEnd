@@ -399,7 +399,7 @@ https://github.com/Syntra-Global-Solution/WebDevelopment-FrontEnd
 
 ## 17. Deploy
 
-**Link da aplicação:** https://webdevelopment-frontend-five.vercel.app
+**Link da aplicação:** (https://webdev-frontend-red.vercel.app/trajetos)
 
 O deploy deverá disponibilizar a aplicação para acesso e avaliação pelo navegador.
 
