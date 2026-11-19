@@ -21,7 +21,7 @@ export function LoginModal() {
     try {
       await signIn(values.email.trim(), values.password)
       setValues({ email: '', password: '' })
-    } catch (_signInError) {
+    } catch {
       // A mensagem segura já é fornecida pelo contexto.
     } finally {
       setLoading(false)

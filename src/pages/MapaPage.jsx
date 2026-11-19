@@ -2,10 +2,11 @@ import { MapPinned } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useOccurrenceContext } from '../hooks/useOccurrenceContext'
 import { MapCanvas } from '../components/map/MapCanvas'
-import { OccurrenceFilters, filterOccurrences } from '../components/occurrences/OccurrenceFilters'
+import { OccurrenceFilters } from '../components/occurrences/OccurrenceFilters'
 import { EmptyState } from '../components/ui/EmptyState'
 import { LoadingState } from '../components/ui/LoadingState'
 import { StatusMessage } from '../components/ui/StatusMessage'
+import { filterOccurrences } from '../utils/occurrenceFilters'
 
 export function MapaPage() {
   const { occurrences, loading, error } = useOccurrenceContext()

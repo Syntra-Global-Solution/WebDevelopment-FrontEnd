@@ -3,12 +3,13 @@ import { useMemo, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useOccurrenceContext } from '../hooks/useOccurrenceContext'
 import { OccurrenceCard } from '../components/occurrences/OccurrenceCard'
-import { OccurrenceFilters, filterOccurrences } from '../components/occurrences/OccurrenceFilters'
+import { OccurrenceFilters } from '../components/occurrences/OccurrenceFilters'
 import { OccurrenceForm } from '../components/occurrences/OccurrenceForm'
 import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import { EmptyState } from '../components/ui/EmptyState'
 import { LoadingState } from '../components/ui/LoadingState'
 import { StatusMessage } from '../components/ui/StatusMessage'
+import { filterOccurrences } from '../utils/occurrenceFilters'
 
 export function RelatosPage() {
   const { user } = useAuth()
@@ -26,6 +27,7 @@ export function RelatosPage() {
   )
 
   async function handleSave(values) {
+    if (!user) throw new Error('Sua sessão expirou. Entre novamente para salvar o relato.')
     if (editing) {
       await occurrenceState.updateOccurrence(editing.id, values)
       setEditing(null)

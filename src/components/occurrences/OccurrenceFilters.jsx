@@ -35,20 +35,3 @@ export function OccurrenceFilters({ group, source, onGroupChange, onSourceChange
   )
 }
 
-export function filterOccurrences(occurrences, group, source) {
-  const now = Date.now()
-  return occurrences.filter((occurrence) => {
-    const matchesSource = source === 'all' || occurrence.source_type === source
-    let matchesGroup = group === 'all'
-    if (group === 'recent') matchesGroup = now - new Date(occurrence.created_at).getTime() <= 24 * 60 * 60 * 1000
-    else if (group !== 'all') {
-      const categoryGroup = occurrence.category === 'accessibility'
-        ? 'accessibility'
-        : ['sidewalk', 'lighting', 'obstacle'].includes(occurrence.category)
-          ? 'infrastructure'
-          : 'transport'
-      matchesGroup = categoryGroup === group
-    }
-    return matchesSource && matchesGroup
-  })
-}

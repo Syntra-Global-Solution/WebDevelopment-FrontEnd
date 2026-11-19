@@ -36,6 +36,11 @@ export function OccurrenceForm({ initialValues, onSave, onCancel, saving }) {
   const [status, setStatus] = useState(null)
   const { coordinates, loading: locating, error: locationError, requestLocation } = useGeolocation()
   const isEditing = Boolean(initialValues?.id)
+  const availableCategories = categoryOptions.filter((option) => (
+    values.subject_type === 'infrastructure'
+      ? option.group === 'infrastructure' || option.value === 'accessibility'
+      : option.group !== 'infrastructure'
+  ))
 
   useEffect(() => {
     if (!coordinates) return
@@ -54,7 +59,22 @@ export function OccurrenceForm({ initialValues, onSave, onCancel, saving }) {
   }, [coordinates])
 
   function update(key, value) {
-    setValues((current) => ({ ...current, [key]: value }))
+    setValues((current) => {
+      if (key !== 'subject_type') return { ...current, [key]: value }
+      const allowedCategories = categoryOptions.filter((option) => (
+        value === 'infrastructure'
+          ? option.group === 'infrastructure' || option.value === 'accessibility'
+          : option.group !== 'infrastructure'
+      ))
+      return {
+        ...current,
+        subject_type: value,
+        category: allowedCategories.some((option) => option.value === current.category) ? current.category : '',
+        ...(value === 'infrastructure'
+          ? { transport_type: '', line: '', direction: '', station: '' }
+          : { address: value === 'station' ? current.address : '' }),
+      }
+    })
     setErrors((current) => ({ ...current, [key]: undefined }))
   }
 
@@ -140,26 +160,26 @@ export function OccurrenceForm({ initialValues, onSave, onCancel, saving }) {
 
       {values.subject_type === 'station' || values.subject_type === 'transport' ? (
         <FormField id="occurrence-line" label={values.subject_type === 'transport' ? 'Linha' : 'Linha, se aplicável'} error={errors.line}>
-          <input id="occurrence-line" className={inputClass} value={values.line} onChange={(event) => update('line', event.target.value)} placeholder="Ex.: Linha 2 Verde" aria-invalid={Boolean(errors.line)} />
+          <input id="occurrence-line" className={inputClass} value={values.line} onChange={(event) => update('line', event.target.value)} placeholder="Ex.: Linha 2 Verde" aria-describedby={errors.line ? 'occurrence-line-error' : undefined} aria-invalid={Boolean(errors.line)} />
         </FormField>
       ) : null}
 
       {values.subject_type === 'station' || values.subject_type === 'transport' ? (
         <FormField id="occurrence-station" label={values.subject_type === 'station' ? 'Estação' : 'Estação de referência'} error={errors.station}>
-          <input id="occurrence-station" list="known-stations" className={inputClass} value={values.station} onChange={(event) => update('station', event.target.value)} placeholder="Ex.: Ana Rosa" aria-invalid={Boolean(errors.station)} />
+          <input id="occurrence-station" list="known-stations" className={inputClass} value={values.station} onChange={(event) => update('station', event.target.value)} placeholder="Ex.: Ana Rosa" aria-describedby={errors.station ? 'occurrence-station-error' : undefined} aria-invalid={Boolean(errors.station)} />
           <datalist id="known-stations">{Object.keys(knownPlaces).map((place) => <option key={place} value={place} />)}</datalist>
         </FormField>
       ) : null}
 
       {values.subject_type === 'transport' ? (
-        <FormField id="occurrence-direction" label="Sentido, se aplicável">
-          <input id="occurrence-direction" className={inputClass} value={values.direction} onChange={(event) => update('direction', event.target.value)} placeholder="Ex.: Vila Madalena" />
+        <FormField id="occurrence-direction" label="Sentido, se aplicável" error={errors.direction}>
+          <input id="occurrence-direction" className={inputClass} value={values.direction} onChange={(event) => update('direction', event.target.value)} placeholder="Ex.: Vila Madalena" aria-describedby={errors.direction ? 'occurrence-direction-error' : undefined} aria-invalid={Boolean(errors.direction)} />
         </FormField>
       ) : null}
 
       {values.subject_type === 'infrastructure' ? (
         <FormField id="occurrence-address" label="Endereço" error={errors.address} hint="O endereço será convertido em coordenadas ao enviar.">
-          <input id="occurrence-address" className={inputClass} value={values.address} onChange={(event) => update('address', event.target.value)} placeholder="Rua, número e bairro" aria-invalid={Boolean(errors.address)} />
+          <input id="occurrence-address" className={inputClass} value={values.address} onChange={(event) => update('address', event.target.value)} placeholder="Rua, número e bairro" aria-describedby={errors.address ? 'occurrence-address-error' : undefined} aria-invalid={Boolean(errors.address)} />
         </FormField>
       ) : null}
 
@@ -172,16 +192,16 @@ export function OccurrenceForm({ initialValues, onSave, onCancel, saving }) {
 
       {values.subject_type ? (
         <FormField id="occurrence-category" label="Categoria" error={errors.category}>
-          <select id="occurrence-category" className={inputClass} value={values.category} onChange={(event) => update('category', event.target.value)} aria-invalid={Boolean(errors.category)}>
+          <select id="occurrence-category" className={inputClass} value={values.category} onChange={(event) => update('category', event.target.value)} aria-describedby={errors.category ? 'occurrence-category-error' : undefined} aria-invalid={Boolean(errors.category)}>
             <option value="">Escolha uma categoria</option>
-            {categoryOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+            {availableCategories.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
           </select>
         </FormField>
       ) : null}
 
       {values.subject_type ? (
         <FormField id="occurrence-description" label="Descrição opcional" error={errors.description} hint={`${values.description.length}/500 caracteres`}>
-          <textarea id="occurrence-description" className={`${inputClass} min-h-24 resize-y`} maxLength={500} value={values.description} onChange={(event) => update('description', event.target.value)} placeholder="Inclua apenas informações úteis, sem dados pessoais." />
+          <textarea id="occurrence-description" className={`${inputClass} min-h-24 resize-y`} maxLength={500} value={values.description} onChange={(event) => update('description', event.target.value)} placeholder="Inclua apenas informações úteis, sem dados pessoais." aria-describedby={errors.description ? 'occurrence-description-error' : undefined} aria-invalid={Boolean(errors.description)} />
         </FormField>
       ) : null}
 

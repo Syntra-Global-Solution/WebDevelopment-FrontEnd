@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { JourneyContext } from '../contexts/JourneyContext'
+import { JourneyContext } from '../contexts/contextObjects'
 
 export function useJourney() {
   const context = useContext(JourneyContext)

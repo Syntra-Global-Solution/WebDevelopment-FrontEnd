@@ -1,10 +1,20 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from './components/layout/AppShell'
+import { LoadingState } from './components/ui/LoadingState'
 
-import { TrajetosPage } from './pages/TrajetosPage'
-import { LinhasPage } from './pages/LinhasPage'
-import { RelatosPage } from './pages/RelatosPage'
-import { MapaPage } from './pages/MapaPage'
+const TrajetosPage = lazy(() => import('./pages/TrajetosPage').then((module) => ({ default: module.TrajetosPage })))
+const LinhasPage = lazy(() => import('./pages/LinhasPage').then((module) => ({ default: module.LinhasPage })))
+const RelatosPage = lazy(() => import('./pages/RelatosPage').then((module) => ({ default: module.RelatosPage })))
+const MapaPage = lazy(() => import('./pages/MapaPage').then((module) => ({ default: module.MapaPage })))
+
+function PageFallback() {
+  return <div className="page-section"><LoadingState label="Carregando página…" /></div>
+}
+
+function lazyPage(Page) {
+  return <Suspense fallback={<PageFallback />}><Page /></Suspense>
+}
 
 function App() {
   return (
@@ -14,22 +24,22 @@ function App() {
 
         <Route
           path="/trajetos"
-          element={<TrajetosPage />}
+          element={lazyPage(TrajetosPage)}
         />
 
         <Route
           path="/linhas"
-          element={<LinhasPage />}
+          element={lazyPage(LinhasPage)}
         />
 
         <Route
           path="/relatos"
-          element={<RelatosPage />}
+          element={lazyPage(RelatosPage)}
         />
 
         <Route
           path="/mapa"
-          element={<MapaPage />}
+          element={lazyPage(MapaPage)}
         />
 
         <Route

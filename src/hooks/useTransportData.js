@@ -30,7 +30,7 @@ export function useTransportData() {
       setResults(data)
       setSelectedLine(data[0] || null)
       setSearched(true)
-    } catch (_requestError) {
+    } catch {
       setError('Não foi possível consultar as linhas. Tente novamente.')
     } finally {
       setLoading(false)

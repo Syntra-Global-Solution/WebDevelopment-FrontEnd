@@ -14,10 +14,12 @@ export function formatDuration(seconds) {
 
 export function formatDateTime(value) {
   if (!value) return 'Data indisponível'
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return 'Data indisponível'
   return new Intl.DateTimeFormat('pt-BR', {
     dateStyle: 'short',
     timeStyle: 'short',
-  }).format(new Date(value))
+  }).format(date)
 }
 
 export function occurrenceLocation(occurrence) {

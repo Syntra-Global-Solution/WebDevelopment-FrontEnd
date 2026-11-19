@@ -34,6 +34,9 @@ export function useRoutes(occurrences = []) {
   }
 
   async function searchRoutes() {
+    controllerRef.current?.abort()
+    controllerRef.current = null
+    setLoading(false)
     if (!origin.text.trim()) {
       setError('Informe a origem ou use sua localização atual.')
       return
@@ -43,25 +46,34 @@ export function useRoutes(occurrences = []) {
       return
     }
 
-    controllerRef.current?.abort()
-    controllerRef.current = new AbortController()
+    const controller = new AbortController()
+    controllerRef.current = controller
     setLoading(true)
     setError('')
     setRoutes([])
+    setSelectedRouteId(null)
+    setComparisonIds([])
     try {
-      const originPlace = origin.place || (await geocodePlace(origin.text, controllerRef.current.signal))
-      const destinationPlace = destination.place || (await geocodePlace(destination.text, controllerRef.current.signal))
+      const originPlace = origin.place || (await geocodePlace(origin.text, controller.signal))
+      const destinationPlace = destination.place || (await geocodePlace(destination.text, controller.signal))
+      if (controller.signal.aborted) return
       setOrigin({ text: origin.text, place: originPlace })
       setDestination({ text: destination.text, place: destinationPlace })
-      const results = await planRailJourneys(originPlace, destinationPlace, controllerRef.current.signal)
+      const results = await planRailJourneys(originPlace, destinationPlace, controller.signal)
+      if (controller.signal.aborted) return
       const ranked = rankRoutes(results, preferences, occurrences)
       setRoutes(ranked)
       setSelectedRouteId(ranked[0]?.id || null)
       setComparisonIds(ranked.slice(0, 2).map((route) => route.id))
     } catch (requestError) {
-      if (requestError.name !== 'AbortError') setError(requestError.message)
+      if (requestError.name !== 'AbortError' && controllerRef.current === controller) {
+        setError(requestError.message || 'Não foi possível buscar trajetos. Tente novamente.')
+      }
     } finally {
-      setLoading(false)
+      if (controllerRef.current === controller) {
+        controllerRef.current = null
+        setLoading(false)
+      }
     }
   }
 
@@ -69,11 +81,17 @@ export function useRoutes(occurrences = []) {
     setOrigin(destination)
     setDestination(origin)
     setRoutes([])
+    setSelectedRouteId(null)
+    setComparisonIds([])
+    setError('')
   }
 
   const setCurrentOrigin = useCallback((place) => {
     setOrigin({ text: place.label || 'Minha localização', place })
     setRoutes([])
+    setSelectedRouteId(null)
+    setComparisonIds([])
+    setError('')
   }, [])
 
   function toggleComparison(id) {

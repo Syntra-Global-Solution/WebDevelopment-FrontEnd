@@ -22,6 +22,10 @@ export function validateOccurrence(values) {
   if (values.subject_type === 'transport' && !values.line?.trim()) {
     errors.line = 'Informe a linha.'
   }
+  if (values.line?.trim().length > 100) errors.line = 'Use no máximo 100 caracteres.'
+  if (values.direction?.trim().length > 100) errors.direction = 'Use no máximo 100 caracteres.'
+  if (values.station?.trim().length > 160) errors.station = 'Use no máximo 160 caracteres.'
+  if (values.address?.trim().length > 240) errors.address = 'Use no máximo 240 caracteres.'
   if (values.description?.length > 500) errors.description = 'Use no máximo 500 caracteres.'
   return errors
 }

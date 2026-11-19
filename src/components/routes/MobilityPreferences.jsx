@@ -25,14 +25,18 @@ export function MobilityPreferences({ preferences, onToggle, open, onOpenChange 
             <legend className="mb-2 text-sm font-semibold text-navy">{group.label}</legend>
             <div className="space-y-2">
               {group.items.map((item) => (
-                <label key={item.id} className="flex min-h-10 cursor-pointer items-start gap-3 rounded-lg px-2 py-2 hover:bg-cream">
+                <label key={item.id} className={`flex min-h-10 items-start gap-3 rounded-lg px-2 py-2 ${item.supported ? 'cursor-pointer hover:bg-cream' : 'cursor-not-allowed opacity-60'}`}>
                   <input
                     type="checkbox"
                     className="mt-0.5 size-4 rounded border-slate text-navy focus:ring-sage"
                     checked={preferences[item.id]}
                     onChange={() => onToggle(item.id)}
+                    disabled={!item.supported}
                   />
-                  <span className="min-w-0 flex-1 text-sm text-navy">{item.label}</span>
+                  <span className="min-w-0 flex-1 text-sm text-navy">
+                    {item.label}
+                    {!item.supported ? <span className="block text-xs text-slate">Indisponível nesta versão</span> : null}
+                  </span>
                 </label>
               ))}
             </div>

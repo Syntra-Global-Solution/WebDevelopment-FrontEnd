@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { OccurrencesContext } from '../contexts/OccurrencesContext'
+import { OccurrencesContext } from '../contexts/contextObjects'
 
 export function useOccurrenceContext() {
   const context = useContext(OccurrencesContext)

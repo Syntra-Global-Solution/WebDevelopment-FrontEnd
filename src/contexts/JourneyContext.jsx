@@ -1,8 +1,6 @@
-import { createContext } from 'react'
 import { useOccurrenceContext } from '../hooks/useOccurrenceContext'
 import { useRoutes } from '../hooks/useRoutes'
-
-export const JourneyContext = createContext(null)
+import { JourneyContext } from './contextObjects'
 
 export function JourneyProvider({ children }) {
   const { occurrences } = useOccurrenceContext()

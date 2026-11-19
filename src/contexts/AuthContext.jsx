@@ -1,7 +1,6 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { isSupabaseConfigured, supabase } from '../lib/supabase'
-
-export const AuthContext = createContext(null)
+import { AuthContext } from './contextObjects'
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null)
