@@ -88,3 +88,140 @@ select {
   font-size: 1.125rem;
   font-weight: 700;
 }
+
+
+/* Fundo da aplicação */
+
+.app-background {
+  background-color: #0d1b2a;
+  background-image:
+    linear-gradient(rgba(244, 241, 222, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 241, 222, 0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Estrutura das páginas */
+
+.page-section {
+  padding: 1.25rem 1rem 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.3rem;
+  color: #415a77;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.page-title {
+  margin: 0;
+  color: #0d1b2a;
+  font-size: clamp(1.45rem, 6vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.page-description {
+  margin: 0.45rem 0 0;
+  color: #415a77;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.section-title {
+  color: #0d1b2a;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+/* Mapa Leaflet */
+
+.leaflet-container {
+  z-index: 0;
+  font-family: var(--font-sans);
+  background: #d4c4a8;
+}
+
+.leaflet-control-attribution {
+  font-size: 9px !important;
+}
+
+.syntra-map-marker {
+  background: none;
+  border: 0;
+}
+
+.syntra-map-marker span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #f4f1de;
+  border: 3px solid #f4f1de;
+  border-radius: 50% 50% 50% 10%;
+  box-shadow: 0 2px 8px rgb(13 27 42 / 0.3);
+  transform: rotate(-45deg);
+}
+
+.syntra-map-marker svg {
+  width: 17px;
+  height: 17px;
+  transform: rotate(45deg);
+}
+
+.point-tooltip {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  padding: 0 !important;
+  color: #0d1b2a;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.point-tooltip::before {
+  display: none;
+}
+
+/* Rolagem do conteúdo */
+
+#app-content {
+  scrollbar-width: thin;
+  scrollbar-color: #778d7a transparent;
+}
+
+#app-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+#app-content::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: #778d7a;
+}
+
+/* Adaptação para celulares */
+
+@media (max-width: 639px) {
+  .phone-frame {
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+  }
+}
+
+/* Acessibilidade */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
