@@ -1,10 +1,7 @@
-const App = () => {
-  return (
-    <>
-      <h1>Syntra</h1>
-      <p>Mobilidade Urbana Inteligente</p>
-    </>
-  )
+import { TrajetosPage } from './pages/TrajetosPage'
+
+function App() {
+  return <TrajetosPage />
 }
 
 export default App
