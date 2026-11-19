@@ -3,10 +3,12 @@ import { LoginModal } from '../auth/LoginModal'
 import { AppHeader } from './AppHeader'
 import { BottomNavigation } from './BottomNavigation'
 import { PhoneSimulator } from './PhoneSimulator'
+import { ProjectIntro } from './ProjectIntro'
 
 export function AppShell() {
   return (
-    <main className="app-background flex min-h-dvh flex-col items-center justify-start sm:justify-center sm:gap-3 sm:p-4">
+    <main className="app-background flex min-h-dvh flex-col items-center justify-start gap-6 sm:gap-7 sm:px-4 sm:py-8">
+      <ProjectIntro />
       <PhoneSimulator>
         <AppHeader />
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain" id="app-content" tabIndex={-1}>
