@@ -4,6 +4,7 @@ import { useTransportData } from '../hooks/useTransportData'
 import { OperationalStatus } from '../components/transport/OperationalStatus'
 import { TransportLineCard } from '../components/transport/TransportLineCard'
 import { TransportSelector } from '../components/transport/TransportSelector'
+import { TrainPredictions } from '../components/transport/TrainPredictions'
 import { Button } from '../components/ui/Button'
 import { EmptyState } from '../components/ui/EmptyState'
 import { FormField, inputClass } from '../components/ui/FormField'
@@ -62,6 +63,14 @@ export function LinhasPage() {
             <div><p className="text-xs text-slate">Estações</p><p className="font-medium text-navy">{transport.selectedLine.stops.length}</p></div>
           </div>
           {transport.selectedLine.note ? <StatusMessage tone="warning">{transport.selectedLine.note}</StatusMessage> : null}
+          <TrainPredictions
+            line={transport.selectedLine}
+            station={transport.selectedStation}
+            predictions={transport.predictions}
+            loading={transport.predictionsLoading}
+            error={transport.predictionsError}
+            onStationChange={transport.selectStation}
+          />
           <details>
             <summary className="cursor-pointer text-sm font-semibold text-navy">Estações</summary>
             <ol className="mt-3 border-l-2 border-sage/50 pl-4 text-sm text-slate">{transport.selectedLine.stops.map((stop) => <li className="relative py-1.5 before:absolute before:-left-[21px] before:top-3 before:size-2 before:rounded-full before:bg-sage" key={stop}>{stop}</li>)}</ol>
